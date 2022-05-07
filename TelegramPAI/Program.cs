@@ -1,5 +1,1 @@
-﻿using TelegramPAI;
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-
-PaiBot.Start(); //переход в метод запуска бота и старта основной программы
+﻿//переход в метод запуска бота PaiBot и старта основной программы из метода PaiBot.Start()

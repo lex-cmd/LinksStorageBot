@@ -1,30 +1,31 @@
 ﻿namespace TelegramPAI
 {
-	internal class PaiBot
+	internal class PaiBot : IBot //основной класс программы для работы с любым чатом
 	{
 		public PaiBot()
 		{
+
 		}
 
-		private Dictionary<string, Category> Categories { get; set; }; // мапа для хранения категорий и ссылок
-
-		private Commands commands; //класс для исполнения команд
-
-		private static ITelegramBotClient bot = new TelegramBotClient("TOKEN"); //сохранения токена бота
-
-		public static void Start()
+		public void NewMessageReceived() //метод для получения новой строки для обработки
 		{
-			//запуск бота, получение обновлений
-		}
-		public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-		{
-			//для ошибок
+
 		}
 
-		public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+		public void Start(string[] args) //запуск основной программы
 		{
-			//обработка новых входящих сообщений от пользователя
-			//выполнение основного кода программы, все команды, сохранение и вывод категорий происходит тут
+
 		}
+
+		public void Stop() //остановка основной программы
+		{
+
+		}
+
+		public void ResponseToChat() //метод для отправки сообщения
+		{
+
+		}
+
 	}
 }
