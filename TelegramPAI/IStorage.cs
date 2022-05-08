@@ -1,9 +1,9 @@
 ﻿namespace TelegramPAI
 {
-	interface IStorage // интерфейс для хранения
+	interface IStorage // интерфейс для хранения объектов
 	{
-		void GetEntity();
-		void StoreEntity(string args);
-		void GetEntityList();
+		public void GetEntity(); //метод для получения объекта
+		public void StoreEntity(string args); //метод для сохранения объекта
+		public void GetEntityList(); //метод для получения списка объектов
 	}
 }

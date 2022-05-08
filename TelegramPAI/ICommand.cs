@@ -1,8 +1,7 @@
 ﻿namespace TelegramPAI
 {
-	interface ICommand
+	interface ICommand // интерфейс для всех команд бота
 	{
-		void Execute(); ///Метод для выполнения команды
-		void ExecuteNext(string commandToExec); // метод для следущего выполнения команды
+		public void Execute(string input); ///Метод для выполнения команды
 	}
 }

@@ -2,12 +2,7 @@
 {
 	internal class GetLinks : ICommand // класс для команды get-links
 	{
-		public void Execute() // метод для выполнения команды
-		{
-
-		}
-
-		public void ExecuteNext(string commandToExec) // метод для следующего выполнения команды
+		public void Execute(string input) // метод для выполнения команды
 		{
 
 		}

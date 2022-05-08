@@ -2,12 +2,12 @@
 {
 	internal class CommandFactory //класс для создания новых команд
 	{
-		CommandFactory()
+		public CommandFactory()
 		{
 
 		}
 
-		Command CreateCommand()
+		public Command CreateCommand()
 		{
 			//метод для создания новой команды, возвращает новый объект команды
 		}
