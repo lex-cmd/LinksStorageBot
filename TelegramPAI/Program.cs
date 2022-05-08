@@ -1,2 +1,1 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿//переход в метод запуска бота PaiBot и старта основной программы из метода PaiBot.Start()
