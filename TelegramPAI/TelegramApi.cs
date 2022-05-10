@@ -9,7 +9,7 @@ namespace TelegramPAI
 
 	internal class TelegramApi // подключение API Telegram
 	{
-		private const string _TOKEN = "5397291530:AAEUVbGJymnyBsaoLuS4aDRzueXWB69e2xE"; //токен телеграм бота
+		private const string _TOKEN = "YourToken"; //токен телеграм бота
 
 		private static readonly ITelegramBotClient _bot = new TelegramBotClient(_TOKEN);
 		private static CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
