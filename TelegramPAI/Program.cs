@@ -1,1 +1,5 @@
-﻿//переход в метод запуска бота PaiBot и старта основной программы из метода PaiBot.Start()
+﻿using TelegramPAI;
+
+var application = new Application();
+
+application.Start();
