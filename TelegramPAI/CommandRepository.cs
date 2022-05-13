@@ -52,11 +52,11 @@
 		{
 			return _commands[id];
 		}
-		public bool HasActiveCommand() // метод для проверки, если есть активная команда возращает true, иначе false
+		public bool HasActiveCommand(long? id) // метод для проверки, если есть активная команда возращает true, иначе false
 		{
-			if(_commands.Count != 0)
+			if (_commands.ContainsKey(id))
 			{
-				return (true);
+				return true;
 			}
 			return false;
 		}

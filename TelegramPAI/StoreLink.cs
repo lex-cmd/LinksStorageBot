@@ -2,9 +2,9 @@
 {
 	internal class StoreLink : ICommand // класс для команды store-link
 	{
-		public string Execute(string input) // метод для выполнения команды
+		public CommandResultDto Execute(string input) // метод для выполнения команды
 		{
-			return "Сейчас выполняется store-link:" + input;
+			return CommandResultDtoFactory.CreateResult("Сейчас выполняется store-link, input: " + input);
 		}
 	}
 }

@@ -2,9 +2,10 @@
 {
 	internal class GetLinks : ICommand // класс для команды get-links
 	{
-		public string Execute(string input) // метод для выполнения команды
+		public CommandResultDto Execute(string input) // метод для выполнения команды
 		{
-			return "Сейчас выполняется get-links:" + input;
+			return CommandResultDtoFactory.CreateResult("Сейчас выполняется get-links, input: " + input);
 		}
+
 	}
 }

@@ -6,16 +6,17 @@
 		{
 			PaiBot paiBot = new PaiBot();
 			TelegramApi telegramApi = new TelegramApi();
-			paiBot.Id = telegramApi.GetId();
 
 			telegramApi.Listening(); // запуск прослушивания новых обновлений от сервера
 
 			var commandHandler = new CommandHandler();
 			while(true)
 			{
-				commandHandler.Execute(paiBot, telegramApi.GetMessage());
-				paiBot.Start(); // получение сообщения если оно есть и запуск бота
-
+				if (telegramApi.IsMessageReceived())
+				{
+					paiBot.UserId = telegramApi.GetUserId(); // получение ID пользователя
+					commandHandler.Execute(paiBot, telegramApi.GetMessage()); // запуск основной работы команд
+				}
 				Thread.Sleep(1000); //задержка 1 сек
 			}
 		}

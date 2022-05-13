@@ -15,13 +15,12 @@ namespace TelegramPAI
 		private static CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 		private static CancellationToken _cancellationToken = _cancellationTokenSource.Token;
 		private static Message _messageSaver = new Message();
+		private static User _user;
 		private static bool _isMessage { get; set; }
-		private static int? _offset { get; set; }
 
 		public TelegramApi()
 		{
 			_isMessage = false;
-			_offset = 0;
 		}
 
 		// метод для прослушивания сообщений клиента
@@ -42,6 +41,7 @@ namespace TelegramPAI
 			{
 				Console.WriteLine("а вот и новый техт: " + update.Message.Text);
 				_messageSaver = update.Message;
+				_user = _messageSaver.From;
 				_isMessage = true;
 			}
 		}
@@ -52,14 +52,18 @@ namespace TelegramPAI
 			Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception));
 		}
 
-		//метод для получения нового сообщения
-
-		public long? GetId()
+		public bool IsMessageReceived()
 		{
-			return _bot.BotId;
+			return _isMessage;
+		}
+		public long? GetUserId() //получение списка пользователей
+		{
+			if(!_isMessage)
+				return null;
+			return _user.Id;
 		}
 
-		public string GetMessage() 
+		public string GetMessage()
 		{
 			if(!_isMessage)
 				return null;

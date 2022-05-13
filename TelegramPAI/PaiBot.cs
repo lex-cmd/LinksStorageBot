@@ -5,12 +5,10 @@ namespace TelegramPAI
 	internal class PaiBot : IBot //основной класс программы для работы с любым чатом
 	{
 		private string _responseString;
-		public long? Id { get; set; }
-		public bool IsResponseSent { get; set; }
+		public long? UserId { get; set; }
 
 		public PaiBot()
 		{
-			IsResponseSent = false;
 		}
 
 		public void NewMessageReceived() //метод для получения новой строки для обработки
@@ -26,11 +24,7 @@ namespace TelegramPAI
 
 		public void Start() //запуск ответа бота
 		{
-			if(!IsResponseSent)
-			{
 				Console.WriteLine(_responseString);
-			}
-			IsResponseSent = true;
 		}
 		public void Start(string[] args) //запуск основной программы
 		{
@@ -42,9 +36,9 @@ namespace TelegramPAI
 
 		}
 
-		public void ResponseToChat(string responseString) //метод для отправки сообщения
+		public void ResponseToChat(CommandResultDto response) //метод для форматирования и отправки сообщения
 		{
-			this._responseString = responseString;
+			this._responseString = response.Format();
 		}
 
 	}
