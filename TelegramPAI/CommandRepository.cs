@@ -54,7 +54,7 @@
 		}
 		public bool HasActiveCommand(long? id) // метод для проверки, если есть активная команда возращает true, иначе false
 		{
-			if (_commands.ContainsKey(id))
+			if (_commands.Count > 0 && _commands.ContainsKey(id))
 			{
 				return true;
 			}

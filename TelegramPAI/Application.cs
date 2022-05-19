@@ -14,8 +14,8 @@
 			{
 				if (telegramApi.IsMessageReceived())
 				{
-					paiBot.UserId = telegramApi.GetUserId(); // получение ID пользователя
-					commandHandler.Execute(paiBot, telegramApi.GetMessage()); // запуск основной работы команд
+					long? userId = telegramApi.GetUserId();
+					commandHandler.Execute(paiBot, telegramApi.GetMessage(), userId); // запуск основной работы команд
 				}
 				Thread.Sleep(1000); //задержка 1 сек
 			}

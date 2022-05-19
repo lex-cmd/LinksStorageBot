@@ -5,7 +5,6 @@ namespace TelegramPAI
 	internal class PaiBot : IBot //основной класс программы для работы с любым чатом
 	{
 		private string _responseString;
-		public long? UserId { get; set; }
 
 		public PaiBot()
 		{

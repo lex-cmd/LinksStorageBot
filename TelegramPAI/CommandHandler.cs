@@ -4,25 +4,22 @@
 	{
 		private CommandFactory _commandFactory;
 		private CommandRepository<ICommand> _commandRepository;
-		private CommandResultDto _result;
-		private CommandResultDtoFactory _resultFactory;
 		public CommandHandler()
 		{
 			_commandFactory = new CommandFactory();
 			_commandRepository = new CommandRepository<ICommand>();
-			_result = new CommandResultDto();
 		}
 
-		public int Execute(IBot bot, string newMessage)
+		public int Execute(IBot bot, string newMessage, long? userId)
 		{
+			CommandResultDto _result = null;
+
 			if(newMessage == null)
 				return -1;
-			Console.WriteLine("user id: " + bot.UserId);
-			if(_commandRepository.HasActiveCommand(bot.UserId)) // проверяется есть ли сейчас активная команда у пользователя и выполняет её
+			if(_commandRepository.HasActiveCommand(userId)) // проверяется есть ли сейчас активная команда у пользователя и выполняет её
 			{
-				var actCommand = _commandRepository.GetCommand(bot.UserId);
+				var actCommand = _commandRepository.GetCommand(userId);
 				_result = actCommand.Execute(newMessage);
-				_commandRepository.Delete(bot.UserId);
 			}
 			else
 			{
@@ -39,9 +36,12 @@
 					Console.WriteLine("Error command");
 					return -1;
 				}
-
-				_commandRepository.Create(command, bot.UserId); // добавление в репозиторий новой команды и id пользователя
 				_result = command.Execute(newMessage);
+				_commandRepository.Create(command, userId); // добавление в репозиторий новой команды и id пользователя
+			}
+			if(_result == null)
+			{
+				return -1;
 			}
 			bot.ResponseToChat(_result);
 			bot.Start(); // запуск бота

@@ -4,9 +4,9 @@
 	{
 		public string result;
 
-		public CommandResultDto()
+		public CommandResultDto(string format)
 		{
-			result = null;
+			result = format;
 		}
 		public string Format()
 		{
