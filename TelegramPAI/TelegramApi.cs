@@ -39,7 +39,6 @@ namespace TelegramPAI
 			//Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
 			if(update.Type == UpdateType.Message)
 			{
-				Console.WriteLine("а вот и новый техт: " + update.Message.Text);
 				_messageSaver = update.Message;
 				_user = _messageSaver.From;
 				_isMessage = true;

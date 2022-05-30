@@ -12,9 +12,9 @@
 			//метод для создания новой команды, возвращает новый объект команды
 			switch(commandName)
 			{
-				case "/get-links":
+				case "/getlinks":
 					return new GetLinks();
-				case "/store-link":
+				case "/storelink":
 					return new StoreLink();
 			}
 			return null;

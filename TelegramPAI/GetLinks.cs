@@ -4,7 +4,7 @@
 	{
 		public CommandResultDto Execute(string input) // метод для выполнения команды
 		{
-			return new CommandResultDto("Сейчас выполняется get-links, input: " + input);
+			return new CommandResultDto("Сейчас выполняется getlinks, input: " + input);
 		}
 
 	}

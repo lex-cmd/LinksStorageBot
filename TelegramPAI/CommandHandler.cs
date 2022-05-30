@@ -14,6 +14,7 @@
 		{
 			CommandResultDto _result = null;
 
+			Console.WriteLine(newMessage);
 			if(newMessage == null)
 				return -1;
 			if(_commandRepository.HasActiveCommand(userId)) // проверяется есть ли сейчас активная команда у пользователя и выполняет её
@@ -50,10 +51,10 @@
 
 		private string RecognizeCommand(string commandToRecognize) //метод для распознания команды из аргумениа
 		{
-			if(commandToRecognize.Contains("/store-link"))
-				return "/store-link";
-			if(commandToRecognize.Contains("/get-links"))
-				return "/get-links";
+			if(commandToRecognize.Contains("/storelink"))
+				return "/storelink";
+			if(commandToRecognize.Contains("/getlinks"))
+				return "/getlinks";
 			return "";
 		}
 	}
