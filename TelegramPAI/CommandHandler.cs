@@ -4,10 +4,12 @@
 	{
 		private CommandFactory _commandFactory;
 		private CommandRepository<ICommand> _commandRepository;
+		private LinksStorage _linksStorage;
 		public CommandHandler()
 		{
 			_commandFactory = new CommandFactory();
 			_commandRepository = new CommandRepository<ICommand>();
+			_linksStorage = new LinksStorage();
 		}
 
 		public int Execute(IBot bot, string newMessage, long? userId)
@@ -20,7 +22,7 @@
 			if(_commandRepository.HasActiveCommand(userId)) // проверяется есть ли сейчас активная команда у пользователя и выполняет её
 			{
 				var actCommand = _commandRepository.GetCommand(userId);
-				_result = actCommand.Execute(newMessage);
+				_result = actCommand.Execute(newMessage, _linksStorage);
 			}
 			else
 			{
@@ -37,7 +39,7 @@
 					Console.WriteLine("Error command");
 					return -1;
 				}
-				_result = command.Execute(newMessage);
+				_result = command.Execute(newMessage, _linksStorage);
 				_commandRepository.Create(command, userId); // добавление в репозиторий новой команды и id пользователя
 			}
 			if(_result == null)
