@@ -4,6 +4,8 @@
 	{
 		public CommandResultDto Execute(string input, LinksStorage _linksStorage) // метод для выполнения команды
 		{
+		_linksStorage.StoreEntity(input);
+
 			return new CommandResultDto("Сейчас выполняется storelink, input: " + input);
 		}
 	}
