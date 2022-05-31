@@ -2,6 +2,6 @@
 {
 	interface ICommand // интерфейс для всех команд бота
 	{
-		public void Execute(string input); ///Метод для выполнения команды
+		public CommandResult Execute(string input, LinksStorage linksStorage);
 	}
 }

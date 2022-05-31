@@ -1,42 +1,68 @@
 ﻿namespace TelegramPAI
 {
-	abstract class CommandRepository<T> : IRepository<T> //Класс для сохранения и хранения списка команд
-	where T : class, ICommand
+	internal class CommandRepository<ICommand> : IRepository<ICommand> //Класс для сохранения и хранения списка команд
+	where ICommand : class
 	{
+		ICommand _command;
+		private bool isActive;
 
-		public void Create(T item)
+		public CommandRepository()
 		{
+			isActive = false;
+		}
 
+		public void Create(ICommand item) // создание объекта
+		{
+			_command = item;
+
+		}
+
+		public void Delete(ICommand item)// удаление объекта
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<ICommand> GetCommandList()
+		{
+			throw new NotImplementedException();
+		}
+		public bool HasActiveCommand() // метод для проверки, если есть активная команда возращает true, иначе false
+		{
+			return (isActive);
+		}
+
+		public void SetInactive()
+		{
+			isActive = false;
+		}
+
+		public void Update(ICommand item) // метод для обновления объекта, для работы с бд
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void SetActive()
+		{
+			isActive = true;
+		}
+
+		public void Save() // метод для сохранения объекта, для работы с бд
+		{
+			throw new NotImplementedException();
 		}
 
 		public void Delete(int id)
 		{
-
+			throw new NotImplementedException();
 		}
 
-		public IEnumerable<T> GetCommandList()
+		public ICommand GetItem(int id)
 		{
-
+			return _command;
 		}
-
-		public T GetCommand(int id)
+		public ICommand GetItem()
 		{
-
-		}
-
-		public void Save()
-		{
-
-		}
-
-		public void Update(T item)
-		{
-
-		}
-
-		public bool HasActiveCommand() // метод для проверки, если есть активная команда возращает true, иначе false
-		{
-
+			return _command;
 		}
 	}
 }
