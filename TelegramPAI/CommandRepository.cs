@@ -4,18 +4,16 @@
 	where ICommand : class
 	{
 		Dictionary<long?, ICommand> _commands;
-		private long? _id;
 
 		public CommandRepository()
 		{
-			_id = 0;
 			_commands = new Dictionary<long?, ICommand>();
 		}
 
-		public void Create(ICommand item) // создание объекта
+		public void Create(ICommand item, int id) // создание объекта
 		{
-			_commands.Add(_id, item);
-			_id++;
+			_commands.Add(id, item);
+			id++;
 		}
 
 		public void Create(ICommand item, long? id) // создание объекта с ID бота пользователя
@@ -23,42 +21,23 @@
 			_commands.Add(id, item);
 		}
 
-		public void Delete(long? id)// удаление объекта по id
+		public bool Delete(long? id)// удаление объекта по id
 		{
-			_commands.Remove(_id);
+			return _commands.Remove(id);
 		}
-		public void Delete(int id)
+		public bool Delete(int id)
 		{
-			_commands.Remove(_id);
-		}
-
-		public IEnumerable<ICommand> GetCommandList() // получение всех объектов в список
-		{
-			List<ICommand> commandList = new List<ICommand>();
-
-			for(int i = 0; i < _commands.Count; i++)
-			{
-				commandList.Add(_commands[i]);
-			}
-			return commandList;
+			return _commands.Remove(id);
 		}
 
-		public ICommand GetCommand(long? id)  // получение одного объекта по id
+		public ICommand GetItem(long? id)  // получение одного объекта по id
 		{
 			return _commands[id];
 		}
 
-		public ICommand GetCommand(int id)
-		{
-			return _commands[id];
-		}
 		public bool HasActiveCommand(long? id) // метод для проверки, если есть активная команда возращает true, иначе false
 		{
-			if (_commands.Count > 0 && _commands.ContainsKey(id))
-			{
-				return true;
-			}
-			return false;
+			return _commands.ContainsKey(id);
 		}
 
 		public void Update(ICommand item) // метод для обновления объекта, для работы с бд
@@ -70,5 +49,11 @@
 		{
 			throw new NotImplementedException();
 		}
+
+		public ICommand GetItem(int id)
+		{
+			return _commands[id];
+		}
+
 	}
 }

@@ -2,11 +2,21 @@
 {
 	internal class StoreLink : ICommand // класс для команды store-link
 	{
-		public CommandResultDto Execute(string input, LinksStorage _linksStorage) // метод для выполнения команды
+		private bool isSecond = false;
+		public CommandResult Execute(string input, LinksStorage linksStorage) // метод для выполнения команды
 		{
-		_linksStorage.StoreEntity(input);
+			if(isSecond)
+			{
+				if(!linksStorage.StoreEntity(input))
+					return new CommandResult("Error argument! Tips: Category Link");
+				//	Console.WriteLine("level two");
+				isSecond = false;
+				return new CommandResult("Link saved");
+			}
+			isSecond = true;
 
-			return new CommandResultDto("Сейчас выполняется storelink, input: " + input);
+			return new CommandResult("Type: Category Link");
 		}
+
 	}
 }

@@ -4,51 +4,35 @@
 	{
 		private CommandFactory _commandFactory;
 		private CommandRepository<ICommand> _commandRepository;
-		private LinksStorage _linksStorage;
+		private Dictionary<long, LinksStorage> _userStorage;
 		public CommandHandler()
 		{
 			_commandFactory = new CommandFactory();
 			_commandRepository = new CommandRepository<ICommand>();
-			_linksStorage = new LinksStorage();
+			_userStorage = new Dictionary<long, LinksStorage>();
 		}
 
-		public int Execute(IBot bot, string newMessage, long? userId)
+		public bool HandleCommand(ref CommandResult commandResult, string newMessage, long userid)
 		{
-			CommandResultDto _result = null;
-
-			Console.WriteLine(newMessage);
-			if(newMessage == null)
-				return -1;
-			if(_commandRepository.HasActiveCommand(userId)) // проверяется есть ли сейчас активная команда у пользователя и выполняет её
+			Console.WriteLine(userid);
+			var argsList = newMessage.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+			if(_commandRepository.HasActiveCommand(userid))
 			{
-				var actCommand = _commandRepository.GetCommand(userId);
-				_result = actCommand.Execute(newMessage, _linksStorage);
-			}
-			else
-			{
-				var commandName = RecognizeCommand(newMessage); // узнать что за команда сейчас 
-				if(commandName == null)
-				{
-					Console.WriteLine("Error commandName");
-					return -1;
-				}
-
-				ICommand? command = _commandFactory.CreateCommand(commandName); // если команда в строке есть, то создается новая команда
+				var command = _commandRepository.GetItem(userid);
 				if(command == null)
-				{
-					Console.WriteLine("Error command");
-					return -1;
-				}
-				_result = command.Execute(newMessage, _linksStorage);
-				_commandRepository.Create(command, userId); // добавление в репозиторий новой команды и id пользователя
+					return false;
+				commandResult = command.Execute(newMessage, _userStorage[userid]);
+				return true;
 			}
-			if(_result == null)
-			{
-				return -1;
-			}
-			bot.ResponseToChat(_result);
-			bot.Start(); // запуск бота
-			return 0;
+			var newCommand = _commandFactory.CreateCommand(RecognizeCommand(argsList[0]));
+			if(newCommand == null)
+				return false;
+
+			if (!_userStorage.ContainsKey(userid))
+				_userStorage.Add(userid, new LinksStorage());
+			_commandRepository.Create(newCommand, userid);
+			commandResult = newCommand.Execute(newMessage, _userStorage[userid]);
+			return true;
 		}
 
 		private string RecognizeCommand(string commandToRecognize) //метод для распознания команды из аргумениа
@@ -60,4 +44,6 @@
 			return "";
 		}
 	}
+
+
 }

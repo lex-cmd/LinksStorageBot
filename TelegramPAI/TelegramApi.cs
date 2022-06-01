@@ -15,7 +15,7 @@ namespace TelegramPAI
 		private static CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 		private static CancellationToken _cancellationToken = _cancellationTokenSource.Token;
 		private static Message _messageSaver = new Message();
-		private static User _user;
+		private static long _userId;
 		private static bool _isMessage { get; set; }
 
 		public TelegramApi()
@@ -40,7 +40,7 @@ namespace TelegramPAI
 			if(update.Type == UpdateType.Message)
 			{
 				_messageSaver = update.Message;
-				_user = _messageSaver.From;
+				_userId = _messageSaver.From.Id;
 				_isMessage = true;
 			}
 		}
@@ -55,11 +55,9 @@ namespace TelegramPAI
 		{
 			return _isMessage;
 		}
-		public long? GetUserId() //получение списка пользователей
+		public long GetUserId() //получение списка пользователей
 		{
-			if(!_isMessage)
-				return null;
-			return _user.Id;
+			return _userId;
 		}
 
 		public string GetMessage()
@@ -68,6 +66,12 @@ namespace TelegramPAI
 				return null;
 			_isMessage = false;
 			return _messageSaver.Text;
+		}
+
+		public async Task SendMessage(string message)
+		{
+			Console.WriteLine(message);
+			await _bot.SendTextMessageAsync(_messageSaver.Chat.Id, message);
 		}
 	}
 }
