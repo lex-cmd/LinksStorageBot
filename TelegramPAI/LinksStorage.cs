@@ -17,13 +17,12 @@
 		{
 			string finalString = null;
 
-			if(_categories.Count > 0)
+			if(_categories.Count == 0)
+				return null;
+			foreach(Category category in _categories)
 			{
-				foreach(Category category in _categories)
-				{
-					finalString += category.Name + "\n";
-					finalString += category.GetLinksToString() + "\n";
-				}
+				finalString += category.Name + "\n";
+				finalString += category.GetLinksToString() + "\n";
 			}
 			return finalString;
 		}
@@ -57,7 +56,6 @@
 				return (true);
 			}
 			found.StoreEntity(argsArr[1]);
-			Console.WriteLine("Save done");
 			return (true);
 		}
 	}

@@ -7,9 +7,12 @@
 		{
 			if(isSecond)
 			{
-				if(input.ToLower() == "all")
+				if(input.ToLower() == "/all")
 				{
-					return new CommandResult(linksStorage.GetEntityListToString());
+					var result = linksStorage.GetEntityListToString();
+					if (result == null)
+						return new CommandResult("You have zero links");
+					return new CommandResult(result);
 				}
 				var found = linksStorage.FindNameCategory(input);
 				if(found != null)
@@ -17,7 +20,7 @@
 			}
 			isSecond = true;
 
-			return new CommandResult("Category name - links in category\nAll - all links");
+			return new CommandResult("Category name - links in category\n/All - all links");
 		}
 	}
 }

@@ -11,13 +11,13 @@ while(true)
 	if(telegramApi.IsMessageReceived())
 	{
 		CommandResult commandResult = null;
-		commandHandler.HandleCommand(ref commandResult, telegramApi.GetMessage());
+		commandHandler.HandleCommand(ref commandResult, telegramApi.GetMessage(), telegramApi.GetUserId());
 		if(commandResult != null)
-			telegramApi.SendMessage(commandResult.Result());
+			await telegramApi.SendMessage(commandResult.Result());
 		else
 		{
-			telegramApi.SendMessage("Type /storelink or /getlinks");
+			await telegramApi.SendMessage("Type /storelink or /getlinks");
 		}
 	}
 	Thread.Sleep(1000);
-}
+}	

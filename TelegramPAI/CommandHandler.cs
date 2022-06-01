@@ -4,30 +4,35 @@
 	{
 		private CommandFactory _commandFactory;
 		private CommandRepository<ICommand> _commandRepository;
-		private LinksStorage _linksStorage;
+		private Dictionary<long, LinksStorage> _userStorage;
 		public CommandHandler()
 		{
 			_commandFactory = new CommandFactory();
 			_commandRepository = new CommandRepository<ICommand>();
-			_linksStorage = new LinksStorage();
+			_userStorage = new Dictionary<long, LinksStorage>();
 		}
 
-		public void HandleCommand(ref CommandResult commandResult, string newMessage)
+		public bool HandleCommand(ref CommandResult commandResult, string newMessage, long userid)
 		{
+			Console.WriteLine(userid);
 			var argsList = newMessage.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-			if (_commandRepository.HasActiveCommand())
+			if(_commandRepository.HasActiveCommand(userid))
 			{
-				commandResult = _commandRepository.GetItem().Execute(newMessage, _linksStorage);
-				_commandRepository.SetInactive();
-				return;
+				var command = _commandRepository.GetItem(userid);
+				if(command == null)
+					return false;
+				commandResult = command.Execute(newMessage, _userStorage[userid]);
+				return true;
 			}
-				var newCommand = _commandFactory.CreateCommand(RecognizeCommand(argsList[0]));
-				if(newCommand == null)
-					return;
-				_commandRepository.Create(newCommand);
-				commandResult = newCommand.Execute(newMessage, _linksStorage);
-				_commandRepository.SetActive();
+			var newCommand = _commandFactory.CreateCommand(RecognizeCommand(argsList[0]));
+			if(newCommand == null)
+				return false;
+
+			if (!_userStorage.ContainsKey(userid))
+				_userStorage.Add(userid, new LinksStorage());
+			_commandRepository.Create(newCommand, userid);
+			commandResult = newCommand.Execute(newMessage, _userStorage[userid]);
+			return true;
 		}
 
 		private string RecognizeCommand(string commandToRecognize) //метод для распознания команды из аргумениа

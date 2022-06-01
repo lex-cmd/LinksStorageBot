@@ -3,37 +3,41 @@
 	internal class CommandRepository<ICommand> : IRepository<ICommand> //Класс для сохранения и хранения списка команд
 	where ICommand : class
 	{
-		ICommand _command;
-		private bool isActive;
+		Dictionary<long?, ICommand> _commands;
 
 		public CommandRepository()
 		{
-			isActive = false;
+			_commands = new Dictionary<long?, ICommand>();
 		}
 
-		public void Create(ICommand item) // создание объекта
+		public void Create(ICommand item, int id) // создание объекта
 		{
-			_command = item;
-
+			_commands.Add(id, item);
+			id++;
 		}
 
-		public void Delete(ICommand item)// удаление объекта
+		public void Create(ICommand item, long? id) // создание объекта с ID бота пользователя
 		{
-			throw new NotImplementedException();
+			_commands.Add(id, item);
 		}
 
-		public List<ICommand> GetCommandList()
+		public bool Delete(long? id)// удаление объекта по id
 		{
-			throw new NotImplementedException();
+			return _commands.Remove(id);
 		}
-		public bool HasActiveCommand() // метод для проверки, если есть активная команда возращает true, иначе false
+		public bool Delete(int id)
 		{
-			return (isActive);
+			return _commands.Remove(id);
 		}
 
-		public void SetInactive()
+		public ICommand GetItem(long? id)  // получение одного объекта по id
 		{
-			isActive = false;
+			return _commands[id];
+		}
+
+		public bool HasActiveCommand(long? id) // метод для проверки, если есть активная команда возращает true, иначе false
+		{
+			return _commands.ContainsKey(id);
 		}
 
 		public void Update(ICommand item) // метод для обновления объекта, для работы с бд
@@ -41,28 +45,15 @@
 			throw new NotImplementedException();
 		}
 
-		internal void SetActive()
-		{
-			isActive = true;
-		}
-
 		public void Save() // метод для сохранения объекта, для работы с бд
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Delete(int id)
 		{
 			throw new NotImplementedException();
 		}
 
 		public ICommand GetItem(int id)
 		{
-			return _command;
+			return _commands[id];
 		}
-		public ICommand GetItem()
-		{
-			return _command;
-		}
+
 	}
 }
