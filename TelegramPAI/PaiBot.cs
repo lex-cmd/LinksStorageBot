@@ -22,6 +22,11 @@
 
 		}
 
+		public void CreateResponse()
+		{
+
+		}
+
 		public void ResponseToChat() //метод для отправки сообщения
 		{
 

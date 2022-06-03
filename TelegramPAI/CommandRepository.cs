@@ -1,42 +1,59 @@
 ﻿namespace TelegramPAI
 {
-	abstract class CommandRepository<T> : IRepository<T> //Класс для сохранения и хранения списка команд
-	where T : class, ICommand
+	internal class CommandRepository<ICommand> : IRepository<ICommand> //Класс для сохранения и хранения списка команд
+	where ICommand : class
 	{
+		Dictionary<long?, ICommand> _commands;
 
-		public void Create(T item)
+		public CommandRepository()
 		{
-
+			_commands = new Dictionary<long?, ICommand>();
 		}
 
-		public void Delete(int id)
+		public void Create(ICommand item, int id) // создание объекта
 		{
-
+			_commands.Add(id, item);
+			id++;
 		}
 
-		public IEnumerable<T> GetCommandList()
+		public void Create(ICommand item, long? id) // создание объекта с ID бота пользователя
 		{
-
+			_commands.Add(id, item);
 		}
 
-		public T GetCommand(int id)
+		public bool Delete(long? id)// удаление объекта по id
 		{
-
+			return _commands.Remove(id);
+		}
+		public bool Delete(int id)
+		{
+			return _commands.Remove(id);
 		}
 
-		public void Save()
+		public ICommand GetItem(long? id)  // получение одного объекта по id
 		{
-
+			return _commands[id];
 		}
 
-		public void Update(T item)
+		public bool HasActiveCommand(long? id) // метод для проверки, если есть активная команда возращает true, иначе false
 		{
-
+			return _commands.ContainsKey(id);
 		}
 
-		public bool HasActiveCommand() // метод для проверки, если есть активная команда возращает true, иначе false
+		public void Update(ICommand item) // метод для обновления объекта, для работы с бд
 		{
-
+			throw new NotImplementedException();
 		}
+
+		public void Save() // метод для сохранения объекта, для работы с бд
+		{
+			throw new NotImplementedException();
+		}
+
+		public ICommand GetItem(int id)
+		{
+			return _commands[id];
+		}
+
 	}
 }
